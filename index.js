@@ -48,17 +48,19 @@ const menuTemplate = [
 	}
 ]
 
+//if on OS X, put a blank menu to move the 'File' menu out of the application name menu
 if (process.platform === 'darwin') menuTemplate.unshift({})
 
 if (process.env.NODE_ENV !== 'production') menuTemplate.push({
 	label: 'Developer',
 	submenu: [
 		{
+			role: 'reload'
+		},
+		{
 			label: 'Toggle Developer Tools',
 			accelerator: process.platform === 'darwin' ? 'Command+Option+I' : 'Ctrl+Shift+I',
-			click(item, focusedWindow) {
-				focusedWindow.toggleDevTools()
-			}
+			click(item, focusedWindow) { focusedWindow.toggleDevTools()	}
 		}
 	]
 })
