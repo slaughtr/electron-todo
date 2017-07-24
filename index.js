@@ -17,7 +17,15 @@ const menuTemplate = [
 		submenu: [
 			{
 				label: 'New Todo'
+			}, {
+				label: 'Quit',
+				accelerator: 'Command+Q',
+				click() {
+					app.quit()
+				}
 			}
 		]
 	}
 ]
+
+if (process.platform === 'darwin') menuTemplate.unshift({})
