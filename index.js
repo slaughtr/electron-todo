@@ -46,3 +46,16 @@ const menuTemplate = [
 ]
 
 if (process.platform === 'darwin') menuTemplate.unshift({})
+
+if (process.env.NODE_ENV !== 'production') menuTemplate.push({
+	label: 'Developer',
+	submenu: [
+		{
+			label: 'Toggle Developer Tools',
+			accelerator: process.platform === 'darwin' ? 'Command+Option+I' : 'Ctrl+Shift+I',
+			click(item, focusedWindow) {
+				focusedWindow.toggleDevTools()
+			}
+		}
+	]
+})
