@@ -1,5 +1,5 @@
 const electron = require('electron')
-const { app, BrowserWindow, Menu } = electron
+const { app, BrowserWindow, Menu, ipcMain } = electron
 
 let mainWindow
 let addWindow
@@ -21,8 +21,15 @@ function createAddWindow() {
 		title: 'Add new todo'
 	})
 	addWindow.loadURL(`file://${__dirname}/add.html`)
-
+	addWindow.on('closed', () => addWindow = null)
 }
+
+ipcMain.on('todoadded', (event, todo) => {
+	mainWindow.webContents.send('todoadded', todo)
+	addWindow.close()
+})
+
+
 
 const menuTemplate = [
 	{
@@ -30,16 +37,12 @@ const menuTemplate = [
 		submenu: [
 			{
 				label: 'New Todo',
-				click() {
-					createAddWindow()
-				}
+				click() { createAddWindow()	}
 			}, 
 			{
 				label: 'Quit',
 				accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
-				click() {
-					app.quit()
-				}
+				click() { app.quit() }
 			}
 		]
 	}
