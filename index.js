@@ -29,7 +29,9 @@ ipcMain.on('todoadded', (event, todo) => {
 	addWindow.close()
 })
 
-
+function clearTodos() {
+	mainWindow.webContents.send('cleartodos')
+}
 
 const menuTemplate = [
 	{
@@ -39,6 +41,10 @@ const menuTemplate = [
 				label: 'New Todo',
 				click() { createAddWindow()	}
 			}, 
+			{
+				label: 'Clear Todos',
+				click() { clearTodos() }
+			},
 			{
 				label: 'Quit',
 				accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
